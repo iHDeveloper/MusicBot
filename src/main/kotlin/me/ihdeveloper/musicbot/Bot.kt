@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import me.ihdeveloper.musicbot.audio.AudioTrackScheduler
 import me.ihdeveloper.musicbot.command.audio.KillCommand
 import me.ihdeveloper.musicbot.command.audio.PlayCommand
 import net.dv8tion.jda.api.JDA
@@ -21,7 +22,6 @@ object Bot {
     lateinit var audioPlayerManager: AudioPlayerManager
 
     private val audioPlayers = mutableMapOf<String, AudioPlayer>()
-    // TODO Create audio wrapper and add track scheduler into it
 
     fun init() {
         println("Initializing audio player manager...")
@@ -57,7 +57,9 @@ object Bot {
 
     fun createAudioPlayer(guildId: String): AudioPlayer {
         return audioPlayers.getOrPut(guildId, {
-            audioPlayerManager.createPlayer()
+            audioPlayerManager.createPlayer().apply {
+                addListener(AudioTrackScheduler())
+            }
         })
     }
 
