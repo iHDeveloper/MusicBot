@@ -22,6 +22,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
 
     implementation("net.dv8tion:JDA:4.2.1_255")
+    implementation("com.sedmelluq:lavaplayer:1.3.75")
 }
 
 tasks {
