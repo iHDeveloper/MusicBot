@@ -7,7 +7,6 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 fun main() {
-    println("Initializing the music bot... By @iHDeveloper")
     val configFile = File("config.json")
 
     if (!configFile.exists()) {
@@ -16,7 +15,11 @@ fun main() {
 
     Bot.run {
         config = Json.decodeFromString(configFile.readText())
+
+        println("Initializing JDA... By @iHDeveloper")
         init()
+
+        println("Starting JDA...")
         run()
     }
 }

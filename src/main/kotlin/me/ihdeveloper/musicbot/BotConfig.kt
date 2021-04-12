@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BotConfig(
-    val token: String
+    val token: String,
+    val owner: String?
 )
