@@ -16,10 +16,11 @@ fun main() {
     Bot.run {
         config = Json.decodeFromString(configFile.readText())
 
-        println("Initializing JDA... By @iHDeveloper")
+        println("Initializing Bot... By @iHDeveloper")
         init()
 
-        println("Starting JDA...")
-        run()
+        println("Starting Bot...")
+        start()
+        println("Bot is ready to use!")
     }
 }

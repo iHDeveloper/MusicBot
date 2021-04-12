@@ -1,6 +1,7 @@
 package me.ihdeveloper.musicbot.command.audio
 
 import com.jagrosh.jdautilities.command.CommandEvent
+import me.ihdeveloper.musicbot.Bot
 import me.ihdeveloper.musicbot.command.AudioCommand
 
 class KillCommand : AudioCommand(
@@ -33,6 +34,7 @@ class KillCommand : AudioCommand(
             return
         }
 
+        Bot.deleteAudioPlayer(voiceState.guild.id)
         voiceState.guild.audioManager.closeAudioConnection()
         event.message.addReaction("👍").queue()
     }

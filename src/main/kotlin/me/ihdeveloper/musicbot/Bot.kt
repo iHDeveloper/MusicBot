@@ -1,6 +1,10 @@
 package me.ihdeveloper.musicbot
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import me.ihdeveloper.musicbot.command.audio.KillCommand
 import me.ihdeveloper.musicbot.command.audio.PlayCommand
 import net.dv8tion.jda.api.JDA
@@ -12,10 +16,19 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 
 object Bot {
-    lateinit var jda: JDA
     lateinit var config: BotConfig
+    lateinit var jda: JDA
+    lateinit var audioPlayerManager: AudioPlayerManager
+
+    private val audioPlayers = mutableMapOf<String, AudioPlayer>()
+    // TODO Create audio wrapper and add track scheduler into it
 
     fun init() {
+        println("Initializing audio player manager...")
+        audioPlayerManager = DefaultAudioPlayerManager()
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager)
+
+        println("Initializing JDA...")
         val builder = JDABuilder.createDefault(config.token).apply {
             setMemberCachePolicy(MemberCachePolicy.VOICE)
             setChunkingFilter(ChunkingFilter.NONE)
@@ -42,11 +55,24 @@ object Bot {
         jda = builder.build()
     }
 
-    fun run() {
+    fun createAudioPlayer(guildId: String): AudioPlayer {
+        return audioPlayers.getOrPut(guildId, {
+            audioPlayerManager.createPlayer()
+        })
+    }
+
+    fun getAudioPlayer(guildId: String): AudioPlayer? = audioPlayers[guildId]
+
+    fun deleteAudioPlayer(guildId: String) {
+        val player = getAudioPlayer(guildId) ?: return
+        player.destroy()
+
+        audioPlayers.remove(guildId)
+    }
+
+    fun start() {
         jda.awaitReady()
 
         jda.presence.activity = Activity.competing("my mind")
-
-        println("Bot is ready to use!")
     }
 }
