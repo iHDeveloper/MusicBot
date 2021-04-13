@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import me.ihdeveloper.musicbot.audio.AudioTrackScheduler
 import me.ihdeveloper.musicbot.command.audio.KillCommand
 import me.ihdeveloper.musicbot.command.audio.PlayCommand
+import me.ihdeveloper.musicbot.command.audio.StatusCommand
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
@@ -47,6 +48,7 @@ object Bot {
             }
 
             addCommand(PlayCommand())
+            addCommand(StatusCommand())
             addCommand(KillCommand())
         }
 
