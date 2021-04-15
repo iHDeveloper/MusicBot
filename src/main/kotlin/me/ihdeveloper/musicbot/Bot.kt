@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import me.ihdeveloper.musicbot.audio.AudioTrackScheduler
+import me.ihdeveloper.musicbot.command.ShutdownCommand
 import me.ihdeveloper.musicbot.command.audio.KillCommand
 import me.ihdeveloper.musicbot.command.audio.PlayCommand
 import me.ihdeveloper.musicbot.command.audio.StatusCommand
@@ -23,6 +24,13 @@ object Bot {
     lateinit var audioPlayerManager: AudioPlayerManager
 
     private val guildPlayers = mutableMapOf<String, GuildPlayer>()
+
+    private val commands = arrayOf(
+        PlayCommand(),
+        StatusCommand(),
+        KillCommand(),
+        ShutdownCommand()
+    )
 
     fun init() {
         println("Initializing audio player manager...")
@@ -47,9 +55,7 @@ object Bot {
                 setOwnerId(config.owner)
             }
 
-            addCommand(PlayCommand())
-            addCommand(StatusCommand())
-            addCommand(KillCommand())
+            commands.forEach { addCommand(it) }
         }
 
         builder.addEventListeners(commandBuilder.build())
@@ -76,5 +82,9 @@ object Bot {
         jda.awaitReady()
 
         jda.presence.activity = Activity.competing("my mind")
+    }
+
+    fun stop() {
+        jda.shutdown()
     }
 }
