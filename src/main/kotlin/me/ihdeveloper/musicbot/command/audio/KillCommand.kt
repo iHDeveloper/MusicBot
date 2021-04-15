@@ -34,8 +34,7 @@ class KillCommand : AudioCommand(
             return
         }
 
-        Bot.deleteAudioPlayer(voiceState.guild.id)
-        voiceState.guild.audioManager.closeAudioConnection()
+        Bot.deleteGuildPlayer(voiceState.guild.id)
         event.message.addReaction("👍").queue()
     }
 }

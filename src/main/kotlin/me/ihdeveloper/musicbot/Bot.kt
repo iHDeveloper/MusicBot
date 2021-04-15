@@ -22,7 +22,7 @@ object Bot {
     lateinit var jda: JDA
     lateinit var audioPlayerManager: AudioPlayerManager
 
-    private val audioPlayers = mutableMapOf<String, AudioPlayer>()
+    private val guildPlayers = mutableMapOf<String, GuildPlayer>()
 
     fun init() {
         println("Initializing audio player manager...")
@@ -57,21 +57,19 @@ object Bot {
         jda = builder.build()
     }
 
-    fun createAudioPlayer(guildId: String): AudioPlayer {
-        return audioPlayers.getOrPut(guildId, {
-            audioPlayerManager.createPlayer().apply {
-                addListener(AudioTrackScheduler())
-            }
+    fun createGuildPlayer(guildId: String): GuildPlayer {
+        return guildPlayers.getOrPut(guildId, {
+            GuildPlayer(guildId)
         })
     }
 
-    fun getAudioPlayer(guildId: String): AudioPlayer? = audioPlayers[guildId]
+    fun getGuildPlayer(guildId: String): GuildPlayer? = guildPlayers[guildId]
 
-    fun deleteAudioPlayer(guildId: String) {
-        val player = getAudioPlayer(guildId) ?: return
-        player.destroy()
+    fun deleteGuildPlayer(guildId: String) {
+        val player = getGuildPlayer(guildId) ?: return
+        player.kill()
 
-        audioPlayers.remove(guildId)
+        guildPlayers.remove(guildId)
     }
 
     fun start() {

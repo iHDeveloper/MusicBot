@@ -19,14 +19,15 @@ class StatusCommand : AudioCommand(
         }
 
         val guild = voiceState.guild
-        val audioPlayer = Bot.getAudioPlayer(voiceState.guild.id)
+        val player = Bot.getGuildPlayer(voiceState.guild.id)
 
-        if (audioPlayer == null || audioPlayer.playingTrack == null) {
+        if (player?.now() == null) {
             event.reply("There's nothing currently playing!")
             return
         }
 
-        event.reply("Currently Playing: ${audioPlayer.playingTrack.info.title}")
+        val current = player.now().info
+        event.reply("Currently Playing: ${current.title} (Author: ${current.author})")
     }
 
 }
