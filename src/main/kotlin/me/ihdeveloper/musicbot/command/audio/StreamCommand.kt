@@ -10,7 +10,7 @@ import me.ihdeveloper.musicbot.command.AudioCommand
 
 class StreamCommand() : AudioCommand(
     "stream",
-    "Plays an audio stream from HD server!"
+    "Plays from an audio stream"
 ) {
     override fun execute(event: CommandEvent) {
         event.member.voiceState.run {
