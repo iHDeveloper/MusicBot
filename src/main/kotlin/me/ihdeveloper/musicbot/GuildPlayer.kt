@@ -44,6 +44,10 @@ class GuildPlayer (
         queue.add(track)
     }
 
+    fun pause() {
+        player.stopTrack()
+    }
+
     fun now() = player.playingTrack
 
     fun next() {

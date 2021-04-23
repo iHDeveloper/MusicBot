@@ -10,6 +10,7 @@ import me.ihdeveloper.musicbot.command.ShutdownCommand
 import me.ihdeveloper.musicbot.command.audio.KillCommand
 import me.ihdeveloper.musicbot.command.audio.PlayCommand
 import me.ihdeveloper.musicbot.command.audio.StatusCommand
+import me.ihdeveloper.musicbot.command.audio.StopCommand
 import me.ihdeveloper.musicbot.command.audio.StreamCommand
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -28,6 +29,7 @@ object Bot {
 
     private val commands = arrayOf(
         PlayCommand(),
+        StopCommand(),
         StreamCommand(),
         StatusCommand(),
         KillCommand(),
