@@ -32,8 +32,15 @@ class StreamCommand() : AudioCommand(
             return
         }
 
+        val streamURL = Bot.config.streamURL
+
+        if (streamURL == null) {
+            event.replyError("There's no stream link to connect to! Contact the bot administrator.")
+            return
+        }
+
         println("Loading the audio stream...")
-        Bot.audioPlayerManager.loadItem("icy://audio.ihdeveloper.me", object : AudioLoadResultHandler {
+        Bot.audioPlayerManager.loadItem(streamURL, object : AudioLoadResultHandler {
             override fun trackLoaded(track: AudioTrack) {
                 println("Audio stream has been loaded!")
                 player.play(track)
